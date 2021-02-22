@@ -1,5 +1,8 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs'); // importing bcrypt
 const User = require('../models/user');
+
+const SALT_ROUNDS = 10;
 
 const getUsers = (req, res) => {
   User.find({})
@@ -35,9 +38,17 @@ const getOneUser = (req, res) => {
 };
 
 const createUser = (req, res) => {
-  const { name, about, avatar } = req.body;
-  User.create({ name, about, avatar })
-  // returns the recorded data
+  const {
+    name, about, avatar, email, password,
+  } = req.body;
+
+  bcrypt.hash(password, SALT_ROUNDS)
+    .then((hash) => {
+      User.create({
+        name, about, avatar, email, password: hash,
+      });
+    })
+    // returns the recorded data
     .then((user) => {
       res.status(200).send(user);
     })

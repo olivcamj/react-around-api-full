@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs'); // importing bcrypt
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 
+const { NODE_ENV, JWT_SECRET } = process.env;
 const SALT_ROUNDS = 10;
 
 const getUsers = (req, res) => {
@@ -42,21 +44,44 @@ const createUser = (req, res) => {
     name, about, avatar, email, password,
   } = req.body;
 
-  bcrypt.hash(password, SALT_ROUNDS)
-    .then((hash) => {
-      User.create({
-        name, about, avatar, email, password: hash,
-      });
-    })
-    // returns the recorded data
+  if (!password || !email) return res.status(400).send({ message: 'Email and password fields should not be empty' });
+
+  console.log('1st createUser: ', email, password);
+
+  return bcrypt
+    .hash(password, SALT_ROUNDS, (err, hash) => {
+      console.log('2nd!!! createUser: ', email, password);
+
+      return User.findOne({ email })
+        .then((userExists) => {
+          if (userExists) return res.status(403).send({ message: 'a user with this email already exists' });
+
+          return User.create({
+            name,
+            about,
+            avatar,
+            email,
+            password: hash,
+          })
+            .then((user) => res.send({ id: user._id, email: user.email }))
+            .catch(() => res.status(400).send(err)); // message: 'User cannot be created
+        });
+    });
+};
+
+const login = (req, res) => {
+  const { email, password } = req.body;
+
+  User.findUserByCredentials({ email, password })
     .then((user) => {
-      res.status(200).send(user);
+      // authentication successful! user is in the user variable
+      const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'practicum', { expiresIn: '7d' });
+      res.cookie('token', token, { httpOnly: true });
+      res.send({ token });
     })
     .catch((err) => {
-      if (err.name === 'ValidationError') {
-        res.status(400).send({ message: err }); // 'Error: data not recorded'
-      }
-      res.status(500).send({ message: err });
+      // authentication error
+      res.status(401).send({ message: err.message });
     });
 };
 
@@ -110,6 +135,7 @@ module.exports = {
   getUsers,
   getOneUser,
   createUser,
+  login,
   updateProfile,
   updateAvatar,
 };

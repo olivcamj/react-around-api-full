@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
 const { celebrate, Joi, errors } = require('celebrate');
+const { requestLogger, errorLogger } = require('./middleware/logger.js');
 const userRouter = require('./routes/users.js');
 const cardsRouter = require('./routes/cards.js');
 const { createUser, login } = require('./controllers/users.js');
@@ -34,6 +35,8 @@ app.use((req, res, next) => {
 
 app.use(bodyParser.json());
 
+app.use(requestLogger); // enabling the request logger
+
 app.post('/signin', celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
@@ -55,7 +58,8 @@ app.get('*', (req, res) => {
   res.status(404).send({ message: 'Requested resource not found.' });
 });
 
-app.use(errors());
+app.use(errorLogger); // enabling the error logger
+app.use(errors()); // celebrate error handler
 
 app.use((err, req, res, next) => {
   const { statusCode = 500, message } = err;

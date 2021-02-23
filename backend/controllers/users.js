@@ -52,7 +52,7 @@ const createUser = (req, res) => {
     .hash(password, SALT_ROUNDS, (err, hash) => {
       console.log('2nd!!! createUser: ', email, password);
 
-      return User.findOne({ email })
+      return User.findOne({ email }).select('+password')
         .then((userExists) => {
           if (userExists) return res.status(403).send({ message: 'a user with this email already exists' });
 

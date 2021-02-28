@@ -1,31 +1,30 @@
 const Cards = require('../models/card');
+const NotFoundError = require('../errors/not-found-err.js');
+const BadRequestError = require('../errors/bad-request-err.js');
+const ForbiddenError = require('../errors/forbidden-err.js')
 
-const getCards = (req, res) => {
+const getCards = (req, res, next) => {
   Cards.find({})
     .then((cards) => {
       res.status(200).send(cards);
     })
-    .catch((err) => {
-      res.status(500).send({ message: err });
-    });
+    .catch(next);
 };
 
-const createCard = (req, res) => {
+const createCard = (req, res, next) => {
   const { name, link } = req.body;
 
   Cards.create({ name, link, owner: req.user._id })
     .then((card) => {
       if (!card) {
-        res.status(400).send({ message: 'Invalid data' });
+        throw new BadRequestError('Invalid data');
       }
       res.status(200).send(card);
     })
-    .catch((err) => {
-      res.status(500).send({ message: err });
-    });
+    .catch(next);
 };
 
-const likeCard = (req, res) => {
+const likeCard = (req, res, next) => {
   Cards.findByIdAndUpdate(
     req.params.cardId,
     { $addToSet: { likes: req.user._id } }, // add _id to the array if it's not there yet
@@ -33,20 +32,20 @@ const likeCard = (req, res) => {
   )
     .then((card) => {
       if (!card) {
-        res.status(404).send({ message: 'Card not found' });
+        throw new NotFoundError('Card not found');
       }
       res.status(200).send(card);
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        res.status(400).send({ message: err });
-      } else {
-        res.status(500).send({ message: err });
+        throw new BadRequestError('Invalid data');
       }
-    });
+      next(err);
+    })
+    .catch(next);
 };
 
-const dislikeCard = (req, res) => {
+const dislikeCard = (req, res, next) => {
   Cards.findByIdAndUpdate(
     req.params.cardId,
     { $pull: { likes: req.user._id } }, // remove _id from the array
@@ -54,33 +53,37 @@ const dislikeCard = (req, res) => {
   )
     .then((card) => {
       if (!card) {
-        res.status(404).send({ message: 'Card not found' });
+        throw new NotFoundError('Card not found');
       }
       res.status(200).send(card);
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        res.status(400).send({ message: err });
-      } else {
-        res.status(500).send({ message: err });
+        throw new BadRequestError('Invalid data');
       }
-    });
+      next(err);
+    })
+    .catch(next);
 };
 
-const deleteCard = (req, res) => {
+const deleteCard = (req, res, next) => {
   Cards.findByIdAndRemove(req.params.cardId)
     .then((card) => {
-      if (!card) {
-        res.status(404).send({ message: 'No card found' });
+      if (card) {
+        res.status(200).send(card);
+      } else if (!card) {
+        throw new NotFoundError('Card not found');
+      } else {
+        throw new ForbiddenError('You can only delete your own cards.');
       }
-      res.status(200).send(card);
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        res.status(400).send({ message: 'Bad Request' });
+        throw new BadRequestError('Invalid data');
       }
-      res.status(500).send({ message: 'Internal Server Error' });
-    });
+      next(err);
+    })
+    .catch(next);
 };
 
 module.exports = {

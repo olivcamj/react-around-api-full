@@ -1,4 +1,3 @@
-const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
@@ -18,14 +17,9 @@ const getUsers = (req, res, next) => {
 };
 
 const getOneUser = (req, res, next) => {
-  // Check if the User Id exists
-  const isValidId = mongoose.Types.ObjectId.isValid(req.params.id);
-  if (!isValidId) {
-    throw new NotFoundError('User does exist');
-  }
-
-  User.findById(req.params.id)
+  User.findById(req.user._id)
     .then((user) => {
+      console.log(user);
       if (!user) {
         throw new NotFoundError('No user with matching ID found');
       }
@@ -50,13 +44,15 @@ const createUser = (req, res) => {
       .then((userExists) => {
         if (userExists) return res.status(403).send({ message: 'a user with this email already exists' });
 
-        return User.create({
-          name,
-          about,
-          avatar,
-          email,
-          password: hash,
-        })
+        return User.create(
+          {
+            name,
+            about,
+            avatar,
+            email,
+            password: hash,
+          },
+        )
           .then((user) => res.send({ id: user._id, email: user.email }))
           .catch(() => {
             if (err.name === 'CastError') {
@@ -70,13 +66,17 @@ const createUser = (req, res) => {
 const login = (req, res, next) => {
   const { email, password } = req.body;
 
-  User.findUserByCredentials({ email, password })
+  return User.findUserByCredentials(email, password)
     .then((user) => {
       if (!user) {
         throw new UnauthorizedError('Incorrect password or email');
       }
       // authentication successful! user is in the user variable
-      const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'practicum', { expiresIn: '7d' });
+      const token = jwt.sign(
+        { _id: user._id },
+        NODE_ENV === 'production' ? JWT_SECRET : 'practicum',
+        { expiresIn: '7d' },
+      );
       res.cookie('token', token, { httpOnly: true });
       res.send({ token });
     })

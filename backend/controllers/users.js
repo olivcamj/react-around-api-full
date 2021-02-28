@@ -19,7 +19,6 @@ const getUsers = (req, res, next) => {
 const getOneUser = (req, res, next) => {
   User.findById(req.user._id)
     .then((user) => {
-      console.log(user);
       if (!user) {
         throw new NotFoundError('No user with matching ID found');
       }
@@ -34,32 +33,23 @@ const createUser = (req, res) => {
   } = req.body;
 
   if (!password || !email) return res.status(400).send({ message: 'Email and password fields should not be empty' });
-
-  console.log('1st createUser: ', email, password);
-
   return bcrypt.hash(password, SALT_ROUNDS, (err, hash) => {
-    console.log('2nd!!! createUser: ', email, password);
-
-    return User.findOne({ email }).select('+password')
-      .then((userExists) => {
-        if (userExists) return res.status(403).send({ message: 'a user with this email already exists' });
-
-        return User.create(
-          {
-            name,
-            about,
-            avatar,
-            email,
-            password: hash,
-          },
-        )
-          .then((user) => res.send({ id: user._id, email: user.email }))
-          .catch(() => {
-            if (err.name === 'CastError') {
-              throw new BadRequestError('User cannot be created'); // message: 'User cannot be created
-            }
-          });
-      });
+    User.findOne({ email }).select('+password')
+      .then(() => User.create(
+        {
+          name,
+          about,
+          avatar,
+          email,
+          password: hash,
+        },
+      )
+        .then((user) => res.send({ id: user._id, email: user.email }))
+        .catch(() => {
+          if (err.name === 'CastError') {
+            throw new BadRequestError('User cannot be created'); // message: 'User cannot be created
+          }
+        }));
   });
 };
 

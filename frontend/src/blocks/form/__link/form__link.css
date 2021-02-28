@@ -1,0 +1,14 @@
+.form__link {
+  text-decoration: none;
+  padding-left: 5px;
+  color: #fff;
+}
+
+.form__link:hover {
+  opacity: .6;
+  cursor: url('../../../images/cursor.png'), pointer;
+}
+
+.form__link:visited {
+  text-decoration: none;
+}

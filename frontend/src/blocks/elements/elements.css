@@ -1,0 +1,25 @@
+@import url('./__container/elements__container.css');
+
+.elements {
+  max-width: 882px;
+  min-height: 744px;
+}
+
+@media screen and (max-width: 900px) {
+  .elements {
+    max-width: 95%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+ .elements {
+    min-height: 628px;
+ } 
+}
+ 
+@media screen and (max-width: 320px) {
+  .elements {
+    max-width: 282px;
+    min-height: 2268px;
+  }
+}

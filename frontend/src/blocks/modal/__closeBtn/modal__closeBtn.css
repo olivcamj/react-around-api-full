@@ -1,0 +1,36 @@
+.modal__closeBtn {
+  width: 40.7px;
+  height: 40.7px;
+  background-image: url('../../../images/closeIcon.svg');
+  background-size: 40.7px 40.7px;
+  background-color: transparent;
+  border-style: none;
+  position: absolute;
+  top: -47px;
+  right: -45.5px;
+  outline: none;
+}
+
+.modal__closeBtn:hover {
+  opacity: .6;
+  cursor: url('../../../images/cursor.png'), pointer;
+}
+
+@media screen and (max-width: 425px) {
+  .modal__closeBtn {
+    background-size: 30.7px 30.7px;
+    background-repeat: no-repeat;
+    top: -37px;
+    right: -35px;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .modal__closeBtn {
+    background-size: 20px 20px;
+    right: -15px;
+    top: -23px;
+    width: 20px;
+    height: 20px;
+  }
+}

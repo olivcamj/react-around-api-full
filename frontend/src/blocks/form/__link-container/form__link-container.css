@@ -1,0 +1,21 @@
+.form__link-container {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  text-align: center;
+  margin: 15px 0 0;
+  font-family: 'Inter', 'Arial';
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 17px;
+  color: #fff;
+}
+
+@media (max-width: 320px) {
+  .form__link-container {
+    margin: 20px 0 0;
+    font-size: 12px;
+    line-height: 15px;
+  }
+}

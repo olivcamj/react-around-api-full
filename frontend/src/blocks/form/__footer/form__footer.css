@@ -1,0 +1,12 @@
+.form__footer {
+  height: 266px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end; 
+}
+
+@media (max-width: 320px) {
+  .form__footer {
+    height: 200px;
+  }
+}

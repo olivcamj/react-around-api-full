@@ -1,0 +1,24 @@
+@import url('./__description/card__description.css');
+@import url('./__likeSection/card__likeSection.css');
+@import url('./__removeBtn/card__removeBtn.css');
+@import url('./__heart-icon/card__heart-icon.css');
+@import url('./__heart-icon/_active/card__heart-icon_active.css');
+@import url('./__likeCount/card__likeCount.css');
+@import url('./__img/card__img.css');
+@import url('./__text/card__text.css');
+@import url('./__removeBtn/_type/card__removeBtn_type_hidden.css');
+
+
+.card {
+  border-radius: 10px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, .15);
+  background-color: #fff;
+  height: 361px;
+}
+@media screen and (max-width: 320px) {
+  .card {
+    margin-bottom: 20px;
+    width: 282px;
+    height: 282px;
+  }
+}

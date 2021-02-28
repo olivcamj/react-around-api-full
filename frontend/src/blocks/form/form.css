@@ -1,0 +1,17 @@
+@import url('./__content/form__content.css');
+@import url('./__heading/form__heading.css');
+@import url('./__heading/_theme/form__heading_theme_dark.css');
+@import url('./__input-container/form__input-container.css');
+@import url('./__item/form__item.css');
+@import url('./__item/_type/form__item_type_error.css');
+@import url('./__item/_theme/form__item_theme_dark.css');
+@import url('./__btn/form__btn.css');
+@import url('./__btn/_disabled/form__btn_disabled.css');
+@import url('./__btn/_theme/form__btn_theme_dark.css');
+@import url('./__label/form__label.css');
+@import url('./__error/form__error.css');
+@import url('./__link-container/form__link-container.css');
+@import url('./__link/form__link.css');
+@import url('./__footer/form__footer.css');
+
+

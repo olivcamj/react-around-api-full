@@ -1,0 +1,36 @@
+.modal__content {
+  max-width: 430px;
+  min-width: 240px;
+  width: 100%;
+  max-height: 330px;
+  min-height: 258px;
+  background-color: #fff;
+  color: #000;
+  box-shadow: 0 0 25px rgba(0, 0, 0, .15);
+  border-radius: 10px;
+  padding: 34px 36px 36px;
+  box-sizing: border-box;
+  position: relative;
+  font-family: 'Inter', 'Arial', sans-serif;
+}
+
+.modal_type_imgPopup .modal__content {
+  position: relative;
+  background: none;
+  box-shadow: none;
+  border-radius: 0;
+  max-height: 75vh;
+  padding: 0;
+}
+
+@media screen and (max-width: 520px) {
+  .modal__content {
+    width: calc(100% - 51px * 2);
+  }
+}
+@media screen and (max-width: 320px) {
+  .modal__content {
+    width: calc(100% - 40px * 2);
+    padding: 20px;
+  }
+}

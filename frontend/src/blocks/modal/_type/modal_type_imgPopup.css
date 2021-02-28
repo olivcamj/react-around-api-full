@@ -1,0 +1,10 @@
+.modal_type_imgPopup::before {
+  content: "";
+  height: 100%;
+  width: 100%;
+  background: #000000;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: .9;
+}

@@ -1,0 +1,6 @@
+.card__heart-icon_active {
+ background-image: url('../../../../images/heartIconFilled.svg');
+ background-repeat: no-repeat;
+}
+
+

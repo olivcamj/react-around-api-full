@@ -1,0 +1,25 @@
+.form__item_theme_dark {
+  background-color: #000;
+  border-bottom: 2px solid #CCC;
+  color: #fff;
+}
+
+.form__item_theme_dark::placeholder {
+  color: #CCC;
+}
+
+
+/* Change autocomplete styles in WebKit, otherwise it's a pale blue */
+input:-webkit-autofill
+input:-webkit-autofill:hover 
+input:-webkit-autofill:focus
+textarea:-webkit-autofill
+textarea:-webkit-autofill:hover
+textarea:-webkit-autofill:focus
+select:-webkit-autofill
+select:-webkit-autofill:hover
+select:-webkit-autofill:focus .form__item_theme_dark {
+  border-bottom: 1px solid #ccc;
+  -webkit-text-fill-color: #fff;
+  transition: background-color 5000s ease-in-out 0s;
+}

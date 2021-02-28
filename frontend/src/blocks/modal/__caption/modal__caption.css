@@ -1,0 +1,16 @@
+.modal__caption {
+  max-width: 291px;
+  height: 12px;
+  font-family: 'Inter', 'Arial', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 15px;
+  color: #fff;
+}
+
+@media screen and (max-width: 320px) {
+  .modal__caption {
+    max-width: 240px;
+  }
+}

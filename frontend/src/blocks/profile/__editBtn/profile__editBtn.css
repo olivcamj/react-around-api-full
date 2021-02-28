@@ -1,0 +1,30 @@
+.profile__editBtn {
+  width: 24px;
+  height: 24px;
+  margin-top: 18px;
+  padding: 7px;
+  background-image: url('../../../images/editBtn.svg');
+  background-size: 10px 10px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: #000;
+  border: 1px solid #fff;
+  border-radius: 2px;
+  outline: none;
+}
+
+.profile__editBtn:hover {
+  opacity: .6;
+  cursor: url('../../../images/cursor.png'), pointer;
+} 
+
+@media screen and (max-width: 320px) {
+  .profile__editBtn {
+    background-size:  7.5px 7.5px;
+    display: block;
+    width: 18px;
+    height: 18px;
+    padding: 5.25px;
+  }
+}
+

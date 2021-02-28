@@ -1,0 +1,14 @@
+.profile__container {
+  display: grid;
+  grid-template-columns: 168px 3fr 2fr;
+  margin-top: 40px;
+}
+
+@media screen and (max-width: 648px) {
+  .profile__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+}

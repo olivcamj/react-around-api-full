@@ -1,0 +1,7 @@
+@import url('./__text/tool-tip__text.css');
+@import url('./__img/tool-tip__img.css');
+
+.tool-tip {
+  padding-top: 10px;
+  margin: 0 auto;
+}

@@ -1,0 +1,19 @@
+.tool-tip__text {
+  width: 358px;
+  height: 58px;
+  font-style: normal;
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 29px;
+  text-align: center;
+  color: #000;
+}
+
+@media (max-width: 320px) {
+  .tool-tip__text {
+    width: 244px;
+    height: 48px;
+    font-size: 20px;
+    line-height: 24.2px;
+  }
+}

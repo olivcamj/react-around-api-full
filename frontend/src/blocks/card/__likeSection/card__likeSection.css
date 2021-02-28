@@ -1,0 +1,4 @@
+.card__likeSction {
+    display: flex;
+    flex-direction: column;
+}

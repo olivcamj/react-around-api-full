@@ -1,0 +1,39 @@
+.profile__addBtn {
+    max-width: 150px;
+    height: 50px;
+    padding: 12px 62px;
+    margin-top: 35px;
+    background-color: #000;
+    border: 2px solid #fff;
+    border-radius: 2px;
+    box-sizing: border-box;
+    justify-self: flex-end;
+    background-image: url('../../../images/addBtn.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 22px 22px;
+    outline: none;
+}
+
+.profile__addBtn:hover {
+  cursor: url('../../../images/cursor.png'), pointer;
+  opacity: .6;
+}
+
+/*@media screen and (max-width: 648px) {
+  .profile__addBtn {
+   width: 90%;
+  }
+}*/
+@media screen and (max-width: 425px) {
+  .profile__addBtn {
+    width: 370px;
+  }
+}
+@media screen and (max-width: 320px) {
+  .profile__addBtn {
+    width: 282px;
+    padding: 17px 134px;
+    background-size: 16px 16px;
+  }
+}

@@ -1,0 +1,18 @@
+.form__btn_theme_dark {
+    width: 190px;
+  height: 22px;
+  padding: 14px 84px;
+  box-sizing: content-box;
+  border: 0;
+  margin: 0;
+  background-color: #fff;
+  color: #000;
+  outline: none;
+}
+
+@media (max-width: 320px) {
+  .form__btn_theme_dark {
+    height: 18px;
+    padding: 14px 35px;
+  }
+}

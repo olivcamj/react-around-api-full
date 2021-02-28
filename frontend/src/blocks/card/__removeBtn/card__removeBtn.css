@@ -1,0 +1,27 @@
+.card__removeBtn {
+ width: 18px;
+ height: 19px;
+ position: relative;
+ top: -264px;
+ left: 90%;
+ right: 15px;
+ cursor: pointer;
+ background-image: url('../../../images/removeBtn.svg');
+ background-size: 100%;
+ background-position: center;
+ background-repeat: no-repeat;
+ background-color: transparent;
+ outline: none;
+ border: none;
+}
+
+.card__removeBtn:hover {
+ opacity: .6;
+ cursor: url('../../../images/cursor.png'), pointer;
+}
+
+@media screen and (max-width: 320px) {
+ .card__removeBtn {
+  top: -190px;
+ }
+}

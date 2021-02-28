@@ -1,0 +1,7 @@
+.card__img {
+  width: 100%;
+  height: calc(100% - 79px);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  border-radius: 10px 10px 0 0;
+}

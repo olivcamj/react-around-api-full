@@ -1,0 +1,20 @@
+.card__heart-icon {
+  min-width: 20.76px; /* will not decrease size*/
+  height: 18.13px;
+  padding: 0;
+  margin-top: 6px;
+  margin-left: 12px;
+  align-self: center;
+  background-image: url('../../../images/heartIcon.svg'); 
+  background-position: center;
+  background-size: 100% 100%;
+  border: none;
+  background-color: #fff;
+  outline: none;
+}
+
+.card__heart-icon:hover {
+  opacity: .6;
+  cursor: url('../../../images/cursor.png'), pointer;
+}
+

@@ -1,0 +1,20 @@
+.header__link {
+  list-style: none;
+  text-align: right;
+  color: #a9a9a9;
+  text-decoration: none;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 22px;
+}
+
+.header__link:first-child {
+  margin-right: 24px;
+  font-weight: 500;
+  color: #fff;
+}
+
+.header__link:last-child:hover {
+  cursor: url('../../../images/cursor.png'), pointer;
+}

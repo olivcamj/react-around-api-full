@@ -22,7 +22,7 @@ router.get('/users/find/:id', celebrate({
   }),
 }), getOneUser);
 
-router.get('users/me', celebrate({
+router.get('/users/me', celebrate({
   headers: Joi.object().keys({
     authorization: Joi.string().regex(/^(Bearer )[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_.+/=]*$/).required(),
   }).options({ allowUnknown: true }),

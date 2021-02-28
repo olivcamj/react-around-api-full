@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const helmet = require('helmet');
 const { celebrate, Joi, errors } = require('celebrate');
 const { requestLogger, errorLogger } = require('./middleware/logger.js');
@@ -21,7 +22,7 @@ mongoose.connect('mongodb://localhost:27017/aroundb', {
   useFindAndModify: false,
   useUnifiedTopology: true,
 });
-
+app.use(cors());
 app.use(helmet());
 
 app.use(bodyParser.json());

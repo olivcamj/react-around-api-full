@@ -32,7 +32,9 @@ const createUser = (req, res) => {
     name, about, avatar, email, password,
   } = req.body;
 
-  if (!password || !email) return res.status(400).send({ message: 'Email and password fields should not be empty' });
+  if (!password || !email) {
+    throw new BadRequestError('Email and password fields should not be empty');
+  }
   return bcrypt.hash(password, SALT_ROUNDS, (err, hash) => {
     User.findOne({ email }).select('+password')
       .then(() => User.create(

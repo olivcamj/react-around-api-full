@@ -13,10 +13,19 @@ router.get('/users', celebrate({
   }),
 }), getUsers);
 
-router.get('/users/:id', celebrate({
+router.get('/users/find/:id', celebrate({
+  headers: Joi.object().keys({
+    authorization: Joi.string().regex(/^(Bearer )[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_.+/=]*$/).required(),
+  }).options({ allowUnknown: true }),
   params: Joi.object().keys({
     id: Joi.string().alphanum().length(24),
   }),
+}), getOneUser);
+
+router.get('users/me', celebrate({
+  headers: Joi.object().keys({
+    authorization: Joi.string().regex(/^(Bearer )[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_.+/=]*$/).required(),
+  }).options({ allowUnknown: true }),
 }), getOneUser);
 
 router.patch('/users/me', celebrate({

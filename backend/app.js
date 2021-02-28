@@ -24,15 +24,6 @@ mongoose.connect('mongodb://localhost:27017/aroundb', {
 
 app.use(helmet());
 
-//  Implementing a temporary authorization solution
-app.use((req, res, next) => {
-  req.user = {
-    _id: '601dd76ea2134705bb978b5a',
-  };
-
-  next();
-});
-
 app.use(bodyParser.json());
 
 app.use(requestLogger); // enabling the request logger

@@ -10,11 +10,6 @@ const cardsRouter = require('./routes/cards.js');
 const { createUser, login } = require('./controllers/users.js');
 const auth = require('./middleware/auth.js');
 
-const corsOptions = {
-  origin: '*',
-  optionSuccessStatus: 200,
-};
-
 require('dotenv').config();
 
 const app = express();
@@ -30,7 +25,7 @@ mongoose.connect('mongodb://localhost:27017/aroundb', {
 app.use(cors());
 app.use(helmet());
 
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(requestLogger); // enabling the request logger
 

@@ -10,7 +10,7 @@ class Api {
     getInitialCards(token) {
         return fetch(`${this._baseUrl}/cards`, {
           headers: {
-            Authorization: `Bearer ${token}`,
+            "Authorization": `Bearer ${token}`,
             "Content-Type": "application/json",
             "Access-Control-Allow-Origin":
               "https://api.around.students.nomoreparties.site/",
@@ -72,24 +72,17 @@ class Api {
         .then((res) => res.ok ? res.json() : Promise.reject(`Error! ${res.statusText}`))
     }
 
-    changeLikeStatus(cardId, boolean, token) {
-        if (boolean) {
-            return fetch(`${this._baseUrl}/cards/likes/${cardId}`, {
-            headers: {
-              "Authorization": `Bearer ${token}`,
-              "Content-Type": "application/json",
+    changeLikeStatus(cardId, isLiked, token) {
+      const methodBoolean = isLiked ? "PUT" : "DELETE";
+      return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json",
         },
-            method: "PUT"}) 
-            .then((res) => res.ok ? res.json() : Promise.reject(`Error! ${res.statusText}`))
-        } else {
-            return fetch(`${this._baseUrl}/cards/likes/${cardId}`, {
-            headers: {
-              "Authorization": `Bearer ${token}`,
-              "Content-Type": "application/json",
-        },
-            method: "DELETE"})
-            .then((res) => res.ok ? res.json() : Promise.reject(`Error! ${res.statusText}`))
-        }
+        method: methodBoolean,
+      }).then((res) =>
+        res.ok ? res.json() : Promise.reject(`Error! ${res.statusText}`)
+        )
     }
 
     setUserAvatar(avatarUrl, token){

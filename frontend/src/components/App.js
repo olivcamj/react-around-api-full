@@ -31,7 +31,7 @@ function App() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const history = useHistory();
+  const history = useHistory({ forceRefresh: true });
 
   const token = localStorage.getItem("jwt");
   // InfoToolTip status
@@ -50,15 +50,13 @@ function App() {
   }
 
   function handleUpdateAvatar({avatar}) {
-    if (token) {
       api
-        .setUserAvatar(avatar, token)
+        .setUserAvatar(avatar.current.value, token)
         .then((res) => {
           setCurrentUser(res);
         })
         .then(() => setIsEditAvatarPopupOpen(false))
         .catch((err) => console.log(err));
-    }
   }
 
   function handleAddPlaceSubmit({ link, name }) {
@@ -99,8 +97,7 @@ function App() {
 
   function handleCardLike(card) {
     // Check one more time if this card was already liked
-    const isLiked = card.likes.some((i) => i._id === currentUser._id);
-    if (token) {
+    const isLiked = card.likes.some((i) => i === currentUser._id);
       // Send a request to the API and getting the updated card data
       api
         .changeLikeStatus(card._id, !isLiked, token)
@@ -111,11 +108,9 @@ function App() {
           setCards(newCards);
         })
         .catch((err) => console.log(err));
-    }
   }
 
   function handleCardDelete(card) {
-    if (token) {
       api
         .deleteCard(card._id, token)
         .then(() => {
@@ -123,7 +118,6 @@ function App() {
           setCards(arrayCopy);
         })
         .catch((err) => console.log(err));
-    }
   }
 
   const handleInfoToolTip = (isSuccessful) => {
@@ -173,11 +167,10 @@ function App() {
       });
   };
 
-  const handlesignin = (e) => {
+  const handleLogin = (e) => {
     e.preventDefault();
       authorize(email, password)
         .then((res) => {
-          console.log("handlesignin res!!", res);
           if (!email || !password) {
             handleInfoToolTip('fail');
             throw new Error(
@@ -190,7 +183,7 @@ function App() {
           setLoggedIn(true);
         })
         .then(() => {
-          history.push("/main");
+          history.push("/");
         })
         .catch((err) => console.log(err.message));
   };
@@ -201,9 +194,9 @@ function App() {
       getContent(token)
         .then((res) => {
           setLoggedIn(true);
-          setEmail(res.data.email);
+          setEmail(res.email);
         })
-        .then(() => history.push("/main"))
+        .then(() => history.push("/"))
         .catch((err) => console.log(err));
     }
   }, [history, token]);
@@ -211,7 +204,6 @@ function App() {
   // Cards and User
   useEffect(() => {
     if (token) {
-      console.log(token);
       api
         .getUserInfo(token)
         .then((userData) => {
@@ -244,13 +236,10 @@ function App() {
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
         <Switch>
-          <Route exact path="/">
-            {loggedIn ? <Redirect to="/main" /> : <Redirect to="/signin" />}
-          </Route>
           <Route path="/signin">
             <Login
               loggedIn={loggedIn}
-              onsignin={handlesignin}
+              onLogin={handleLogin}
               email={email}
               password={password}
               setEmail={setEmail}
@@ -280,7 +269,7 @@ function App() {
             />
           </Route>
           <ProtectedRoute
-            path="/main"
+            path="/"
             component={Main}
             cards={cards}
             onEditAvatar={handleEditAvatarClick}
@@ -288,18 +277,17 @@ function App() {
             onAddPlace={handleAddPlaceClick}
             onCardClick={handleCardClick}
             selectedCard={selectedCard}
-            onCardDelete={(card) => {
-              handleCardDelete(card);
-            }}
-            onCardLike={(card) => {
-              handleCardLike(card);
-            }}
+            onCardDelete={handleCardDelete}
+            onCardLike={handleCardLike}
             handleCardLike={handleCardLike}
             handleCardDelete={handleCardDelete}
             loggedIn={loggedIn}
             email={email}
             onSignOut={handleSignOut}
           />
+          <Route exact path="/*">
+            {loggedIn ? <Redirect to="/" /> : <Redirect to="/signin" />}
+          </Route>
         </Switch>
       </div>
 

@@ -17,7 +17,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy": "npm run build && scp -r ./build/* froggyuser@137.117.93.68:/home/froggyuser/react-around-api-full/around-frontend"
+    "deploy": "npm run build && scp -r ./build/* froggyuser@137.117.93.68:/home/froggyuser/react-around-api-full/frontend"
   },
   "eslintConfig": {
     "extends": [
@@ -32,9 +32,7 @@
       "not op_mini all"
     ],
     "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
+      "since 2017-06"
     ]
   }
 }

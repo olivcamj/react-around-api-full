@@ -10,11 +10,6 @@ const cardsRouter = require('./routes/cards.js');
 const { createUser, login } = require('./controllers/users.js');
 const auth = require('./middleware/auth.js');
 
-// const corsOptions = {
-//   origin: '*',
-//   optionSuccessStatus: 200,
-// };
-
 require('dotenv').config();
 
 const app = express();
@@ -28,6 +23,8 @@ mongoose.connect('mongodb://localhost:27017/aroundb', {
   useUnifiedTopology: true,
 });
 app.use(cors());
+app.options('*', cors());
+
 app.use(helmet());
 
 app.use(bodyParser.json());

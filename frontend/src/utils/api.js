@@ -11,9 +11,7 @@ class Api {
         return fetch(`${this._baseUrl}/cards`, {
           headers: {
             "Authorization": `Bearer ${token}`,
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin":
-              "https://api.around.students.nomoreparties.site/",
+            
           },
         }).then((res) =>
           res.ok ? res.json() : Promise.reject(`Error! ${res.statusText}`)

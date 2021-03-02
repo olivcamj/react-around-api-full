@@ -213,23 +213,24 @@ function App() {
           console.log(err.message);
         });
       }
-    api
-      .getInitialCards(token)
-      .then((res) => {
-        setCards(
-          res.map((card) => ({
-            name: card.name,
-            link: card.link,
-            likes: card.likes,
-            _id: card._id,
-            owner: card.owner,
-          }))
-        );
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    
+    if (token) {
+      api
+        .getInitialCards(token)
+        .then((res) => {
+          setCards(
+            res.map((card) => ({
+              name: card.name,
+              link: card.link,
+              likes: card.likes,
+              _id: card._id,
+              owner: card.owner,
+            }))
+          );
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   }, [token]);
 
   return (
@@ -285,7 +286,7 @@ function App() {
             email={email}
             onSignOut={handleSignOut}
           />
-          <Route exact path="/*">
+          <Route exact path="*">
             {loggedIn ? <Redirect to="/" /> : <Redirect to="/signin" />}
           </Route>
         </Switch>

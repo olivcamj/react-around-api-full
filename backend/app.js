@@ -9,6 +9,7 @@ const userRouter = require('./routes/users.js');
 const cardsRouter = require('./routes/cards.js');
 const { createUser, login } = require('./controllers/users.js');
 const auth = require('./middleware/auth.js');
+const NotFoundError = require('./errors/not-found-err.js');
 
 require('dotenv').config();
 
@@ -55,8 +56,8 @@ app.post(
 app.use('/', auth, userRouter);
 app.use('/', auth, cardsRouter);
 
-app.get('*', (req, res) => {
-  res.status(404).send({ message: 'Requested resource not found.' });
+app.use(() => {
+  throw new NotFoundError('Page not found');
 });
 
 app.use(errorLogger); // enabling the error logger

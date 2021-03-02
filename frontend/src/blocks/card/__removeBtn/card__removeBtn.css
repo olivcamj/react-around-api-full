@@ -1,9 +1,9 @@
 .card__removeBtn {
  width: 18px;
  height: 19px;
- position: relative;
- top: -264px;
- left: 90%;
+ position: absolute;
+ bottom: 90%;
+ left: 85%;
  right: 15px;
  cursor: pointer;
  background-image: url('../../../images/removeBtn.svg');

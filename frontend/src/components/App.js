@@ -183,7 +183,7 @@ function App() {
           setLoggedIn(true);
         })
         .then(() => {
-          history.push("/");
+          history.push("/main");
         })
         .catch((err) => console.log(err.message));
   };
@@ -196,7 +196,7 @@ function App() {
           setLoggedIn(true);
           setEmail(res.email);
         })
-        .then(() => history.push("/"))
+        .then(() => history.push("/main"))
         .catch((err) => console.log(err));
     }
   }, [history, token]);
@@ -237,7 +237,10 @@ function App() {
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
         <Switch>
-          <Route path="/signin">
+          <Route exact path="/">
+            {loggedIn ? <Redirect to="/main" /> : <Redirect to="/signin" />}
+          </Route>
+          <Route exact path="/signin">
             <Login
               loggedIn={loggedIn}
               onLogin={handleLogin}
@@ -253,7 +256,7 @@ function App() {
               loggedIn={loggedIn}
             />
           </Route>
-          <Route path="/register">
+          <Route exact path="/signup">
             <Register
               loggedIn={loggedIn}
               onSubmit={handleRegistrationSubmit}
@@ -269,62 +272,61 @@ function App() {
               loggedIn={loggedIn}
             />
           </Route>
-          <ProtectedRoute
-            path="/"
-            component={Main}
-            cards={cards}
-            onEditAvatar={handleEditAvatarClick}
-            onEditProfile={handleEditProfileClick}
-            onAddPlace={handleAddPlaceClick}
-            onCardClick={handleCardClick}
-            selectedCard={selectedCard}
-            onCardDelete={handleCardDelete}
-            onCardLike={handleCardLike}
-            handleCardLike={handleCardLike}
-            handleCardDelete={handleCardDelete}
-            loggedIn={loggedIn}
-            email={email}
-            onSignOut={handleSignOut}
-          />
-          <Route exact path="*">
-            {loggedIn ? <Redirect to="/" /> : <Redirect to="/signin" />}
+          <Route path="/main">
+            <ImagePopup
+              card={selectedCard}
+              isOpen={isImageOpen}
+              onCardClick={handleCardClick}
+            />
+
+            <EditAvatarPopup
+              isOpen={isEditAvatarPopupOpen}
+              onClose={closeAllPopups}
+              onUpdateAvatar={handleUpdateAvatar}
+            />
+
+            <EditProfilePopup
+              isOpen={isEditProfilePopupOpen}
+              onClose={closeAllPopups}
+              onUpdateUser={handleUpdateUser}
+            />
+
+            <AddPlacePopup
+              isOpen={isAddPlacePopupOpen}
+              onClose={closeAllPopups}
+              onAddPlace={handleAddPlaceSubmit}
+            />
+
+            <PopupWithForm
+              name="deleteCard"
+              title="Are you sure?"
+              buttonText="Yes"
+              isOpen={
+                false
+              } /* place a variable here to change the state of delete card */
+              onClose={closeAllPopups}
+            />
+
+            <ProtectedRoute
+              path="/main"
+              component={Main}
+              cards={cards}
+              onEditAvatar={handleEditAvatarClick}
+              onEditProfile={handleEditProfileClick}
+              onAddPlace={handleAddPlaceClick}
+              onCardClick={handleCardClick}
+              selectedCard={selectedCard}
+              onCardDelete={handleCardDelete}
+              onCardLike={handleCardLike}
+              handleCardLike={handleCardLike}
+              handleCardDelete={handleCardDelete}
+              loggedIn={loggedIn}
+              email={email}
+              onSignOut={handleSignOut}
+            />
           </Route>
         </Switch>
       </div>
-
-      <ImagePopup
-        card={selectedCard}
-        isOpen={isImageOpen}
-        onCardClick={handleCardClick}
-      />
-
-      <EditAvatarPopup
-        isOpen={isEditAvatarPopupOpen}
-        onClose={closeAllPopups}
-        onUpdateAvatar={handleUpdateAvatar}
-      />
-
-      <EditProfilePopup
-        isOpen={isEditProfilePopupOpen}
-        onClose={closeAllPopups}
-        onUpdateUser={handleUpdateUser}
-      />
-
-      <AddPlacePopup
-        isOpen={isAddPlacePopupOpen}
-        onClose={closeAllPopups}
-        onAddPlace={handleAddPlaceSubmit}
-      />
-
-      <PopupWithForm
-        name="deleteCard"
-        title="Are you sure?"
-        buttonText="Yes"
-        isOpen={
-          false
-        } /* place a variable here to change the state of delete card */
-        onClose={closeAllPopups}
-      />
     </CurrentUserContext.Provider>
   );
 }

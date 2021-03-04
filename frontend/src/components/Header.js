@@ -15,7 +15,7 @@ function Header({ text, link, loggedIn, onSignOut }) {
   const DefaultNav = () => {
     return (
       <div className="header__nav">
-        <Link className="header__link" to={`${link}`}>
+        <Link className="header__link" to={{pathname:`${link}`}}>
           {text}
         </Link>
       </div>

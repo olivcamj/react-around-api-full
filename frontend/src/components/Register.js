@@ -51,7 +51,7 @@ const Register = ({ onSubmit, email, setEmail, password, setPassword }) => {
             </button>
             <div className="form__link-container">
               <span>Already a member?</span>
-              <Link to="signin" className="form__link">
+              <Link to="/signin" className="form__link">
                 Log in here!
               </Link>
             </div>

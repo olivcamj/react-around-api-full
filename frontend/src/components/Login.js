@@ -1,7 +1,6 @@
 import React from 'react'
-import { Link, /*useHistory*/ } from "react-router-dom";
-//import * as auth from "../utils/auth.js";
-import Header from './Header.js'
+import { Link } from "react-router-dom";
+import Header from './Header.js';
 
 const Login = ({ onLogin, email, setEmail, password, setPassword}) => {
   
@@ -14,13 +13,8 @@ const Login = ({ onLogin, email, setEmail, password, setPassword}) => {
 
 return (
   <>
-    <Header text="Sign up" link="/register" />
-    <form
-      id="form"
-      action="#"
-      className="form login"
-      onSubmit={onLogin} 
-    >
+    <Header text="Sign up" link="/signup" />
+    <form id="form" action="#" className="form login" onSubmit={onLogin}>
       <div className="form__content">
         <h3 className="form__heading form__heading_theme_dark">Log in</h3>
         <label htmlFor="email" className="form__label">
@@ -56,7 +50,7 @@ return (
           </button>
           <div className="form__link-container">
             <span>Not a member yet?</span>
-            <Link to="register" className="form__link">
+            <Link to="/signup" className="form__link">
               Sign up here!
             </Link>
           </div>

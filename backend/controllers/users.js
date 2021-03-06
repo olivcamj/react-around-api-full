@@ -4,6 +4,7 @@ const User = require('../models/user');
 const NotFoundError = require('../errors/not-found-err.js');
 const BadRequestError = require('../errors/bad-request-err.js');
 const UnauthorizedError = require('../errors/unauthorized-err.js');
+const ConflictError = require('../errors/conflict-err.js');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 const SALT_ROUNDS = 10;
@@ -27,32 +28,37 @@ const getOneUser = (req, res, next) => {
     .catch(next);
 };
 
-const createUser = (req, res) => {
+const createUser = (req, res, next) => {
   const {
-    name, about, avatar, email, password,
+    name,
+    about,
+    avatar,
+    email,
+    password,
   } = req.body;
 
   if (!password || !email) {
     throw new BadRequestError('Email and password fields should not be empty');
   }
-  return bcrypt.hash(password, SALT_ROUNDS, (err, hash) => {
-    User.findOne({ email }).select('+password')
-      .then(() => User.create(
-        {
-          name,
-          about,
-          avatar,
-          email,
-          password: hash,
-        },
-      )
-        .then((user) => res.send({ id: user._id, email: user.email }))
-        .catch(() => {
-          if (err.name === 'CastError') {
-            throw new BadRequestError('User cannot be created'); // message: 'User cannot be created
-          }
-        }));
-  });
+  bcrypt
+    .hash(password, SALT_ROUNDS)
+    .then((hash) => User.create({
+      name,
+      about,
+      avatar,
+      email,
+      password: hash, // adding the hash to the database
+    }))
+    .then((user) => res.status(200).send(user))
+    .catch((err) => {
+      if (err.name === 'ValidationError') {
+        throw new NotFoundError('Invalid user');
+      }
+      if (err.code === '11000' || err.code === 'MongoError') {
+        throw new ConflictError('User already exists');
+      }
+    })
+    .catch(next);
 };
 
 const login = (req, res, next) => {

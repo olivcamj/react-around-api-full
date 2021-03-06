@@ -6,9 +6,9 @@ function ImagePopup(props) {
         <div className="modal__content"> 
           <button className="modal__closeBtn" onClick={props.onCardClick}></button>
           <figure className="modal__figure">
-          <img src={`${props.card.link}`} alt={props.card.name} className="modal__img" />
+          <img src={props.card ? props.card.link : ""} alt={props.card ? props.card.name : ""} className="modal__img" />
 
-          <figcaption className="modal__caption">{props.card.name}</figcaption>
+          <figcaption className="modal__caption">{props.card ? props.card.name : ""}</figcaption>
           </figure>
         </div>
       </div>

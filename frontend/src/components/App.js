@@ -21,10 +21,10 @@ function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isInfoToolTipOpen, setIsInfoToolTipOpen] = useState(false);
 
-  const [selectedCard, setSelectedCard] = useState({});
+  const [selectedCard, setSelectedCard] = useState(null);
   const [isImageOpen, setIsImageOpen] = useState(false);
 
-  const [currentUser, setCurrentUser] = useState("");
+  const [currentUser, setCurrentUser] = useState(null);
   const [cards, setCards] = useState([]);
 
   const [loggedIn, setLoggedIn] = useState(false);
@@ -33,7 +33,7 @@ function App() {
 
   const history = useHistory({ forceRefresh: true });
 
-  const token = localStorage.getItem("jwt");
+  const token = localStorage.getItem("token");
   // InfoToolTip status
   const [isSuccessful, setIsSuccessful] = useState('');
 
@@ -132,8 +132,9 @@ function App() {
 
   // Log user out
   const handleSignOut = () => {
-    localStorage.removeItem("jwt");
+    localStorage.removeItem("token");
     setLoggedIn(false);
+    setCurrentUser({});
     history.push("/signin");
   };
 
@@ -147,12 +148,14 @@ function App() {
 
     register(email, password)
       .then((res) => {
-        if (!res || res.statusCode === 400) {
+        if (!res || !res.statusCode === 200) {
           handleInfoToolTip("fail");
+          resetForm();
           throw new Error("Bad Request");
+        } else {
+          handleInfoToolTip("success");
+          return res;
         }
-        handleInfoToolTip("success");
-        return res;
       })
       .then(resetForm())
       .then((res) => {
@@ -179,8 +182,10 @@ function App() {
           }  else if (!res) {
             handleInfoToolTip('fail');
             throw new Error("01 - the user with the specified email not found");
+          } else {
+            localStorage.setItem("token", res.token);
+            setLoggedIn(true);
           }
-          setLoggedIn(true);
         })
         .then(() => {
           history.push("/main");
@@ -189,17 +194,27 @@ function App() {
   };
 
   // Check if User has a token
-  useEffect(() => {
+  const handleTokenCheck = () => {
     if (token) {
       getContent(token)
         .then((res) => {
           setLoggedIn(true);
           setEmail(res.email);
         })
-        .then(() => history.push("/main"))
-        .catch((err) => console.log(err));
+        .catch((err) => console.log(err))
+        .finally(() => setLoggedIn(Boolean(token)));
     }
-  }, [history, token]);
+  }
+  
+  useEffect(() => {
+    handleTokenCheck();
+    if (loggedIn) {
+       history.push("/main");
+    } else {
+      history.push("/signin");
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loggedIn]);
 
   // Cards and User
   useEffect(() => {
@@ -213,6 +228,9 @@ function App() {
           console.log(err.message);
         });
       }
+ }, [token]);
+
+  useEffect(() => {
     if (token) {
       api
         .getInitialCards(token)

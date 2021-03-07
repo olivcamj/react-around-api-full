@@ -40,6 +40,12 @@ app.use(express.json());// to support JSON-encoded bodies
 
 app.use(requestLogger); // enabling the request logger
 
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Server will crash now');
+  }, 0);
+});
+
 app.post('/signin', celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),

@@ -49,7 +49,7 @@ const createUser = (req, res, next) => {
       email,
       password: hash, // adding the hash to the database
     }))
-    .then((user) => res.status(200).send(user))
+    .then((user) => res.status(200).send({ id: user._id, email: user.email }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         throw new NotFoundError('Invalid user');

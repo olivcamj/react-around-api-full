@@ -69,7 +69,7 @@ const dislikeCard = (req, res, next) => {
 const deleteCard = (req, res, next) => {
   Cards.findByIdAndRemove(req.params.cardId)
     .then((card) => {
-      if (card) {
+      if (card && req.user._id.toString() === card.owner.toString()) {
         res.status(200).send(card);
       } else if (!card) {
         throw new NotFoundError('Card not found');

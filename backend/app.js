@@ -1,6 +1,5 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
 const cors = require('cors');
 const helmet = require('helmet');
 const { celebrate, Joi, errors } = require('celebrate');
@@ -28,7 +27,7 @@ app.options('*', cors());
 
 app.use(helmet());
 
-app.use(bodyParser.json());
+app.use(express.json());// to support JSON-encoded bodies
 
 app.use(requestLogger); // enabling the request logger
 

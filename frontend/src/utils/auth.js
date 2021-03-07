@@ -8,12 +8,14 @@ export const register = (email, password) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ email, password }),
-  }).then((response) => {
-       return response.json();
-     })
-     .then((res) => {
-       return res;
-     }).catch((err) => console.log(err));
+  })
+  .then((response) => {
+    return response.json();
+  })
+  .then((res) => {
+    return res;
+  })
+  .catch((err) => console.log(err));
 };
 
 export const authorize = (email, password) => {
@@ -28,18 +30,18 @@ export const authorize = (email, password) => {
       password,
     }),
   })
-    .then((response) => {
-      return response.json();
-    })
-    .then((data) => {
-      if (data.token) {
-        localStorage.setItem("jwt", data.token);
-        return data;
-      } 
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  .then((response) => {
+    return response.json();
+  })
+  .then((data) => {
+    if (data.token) {
+      localStorage.setItem("jwt", data.token);
+      return data;
+    } 
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 };
 
 export const getContent = (token) => {

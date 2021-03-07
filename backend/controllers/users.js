@@ -51,10 +51,10 @@ const createUser = (req, res, next) => {
     }))
     .then((user) => res.status(200).send({ id: user._id, email: user.email }))
     .catch((err) => {
-      if (err.name === 'ValidationError') {
-        throw new NotFoundError('Invalid user');
+      if (err.name === 'CastError') {
+        throw new BadRequestError('Invalid user');
       }
-      if (err.code === '11000' || err.code === 'MongoError') {
+      if (err.name === 'MongoError' || err.code === '11000' || err.name === 'ValidationError') {
         throw new ConflictError('User already exists');
       }
     })

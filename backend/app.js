@@ -3,6 +3,7 @@ const rateLimit = require('express-rate-limit');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const helmet = require('helmet');
+const bodyParser = require('body-parser');
 const { celebrate, Joi, errors } = require('celebrate');
 const { requestLogger, errorLogger } = require('./middleware/logger.js');
 const userRouter = require('./routes/users.js');
@@ -33,7 +34,7 @@ mongoose.connect('mongodb://localhost:27017/aroundb', {
 });
 
 app.use(helmet());
-
+app.use(bodyParser);
 const corsOptions = {
   origin: '*',
   optionSuccessStatus: 200,
@@ -41,7 +42,7 @@ const corsOptions = {
 
 app.use(express.json(), cors(corsOptions));
 // app.use(cors());
-// app.options('*', cors());
+app.options('*', cors()); // preflight
 
 // app.use(express.json());// to support JSON-encoded bodies
 

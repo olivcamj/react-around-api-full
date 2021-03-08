@@ -31,12 +31,19 @@ mongoose.connect('mongodb://localhost:27017/aroundb', {
   useFindAndModify: false,
   useUnifiedTopology: true,
 });
-app.use(cors());
-app.options('*', cors());
 
 app.use(helmet());
 
-app.use(express.json());// to support JSON-encoded bodies
+const corsOptions = {
+  origin: '*',
+  optionSuccessStatus: 200,
+};
+
+app.use(express.json(), cors(corsOptions));
+// app.use(cors());
+// app.options('*', cors());
+
+// app.use(express.json());// to support JSON-encoded bodies
 
 app.use(requestLogger); // enabling the request logger
 

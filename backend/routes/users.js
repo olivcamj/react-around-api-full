@@ -1,5 +1,5 @@
 const express = require('express');
-const { celebrate, Joi, Segments } = require('celebrate');
+const { celebrate, Joi } = require('celebrate');
 
 const userRouter = express.Router();
 const {

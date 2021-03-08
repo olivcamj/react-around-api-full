@@ -1,4 +1,4 @@
-const router = require('express').Router();
+const cardsRouter = require('express').Router();
 const { celebrate, Joi } = require('celebrate');
 
 const {
@@ -9,13 +9,13 @@ const {
   dislikeCard,
 } = require('../controllers/cards.js');
 
-router.get('/cards', celebrate({
+cardsRouter.get('/', celebrate({
   headers: Joi.object().keys({
     authorization: Joi.string().regex(/^(Bearer )[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_.+/=]*$/).required(),
   }).options({ allowUnknown: true }),
 }), getCards);
 
-router.post('/cards', celebrate({
+cardsRouter.post('/', celebrate({
   headers: Joi.object().keys({
     authorization: Joi.string().regex(/^(Bearer )[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_.+/=]*$/).required(),
   }).options({ allowUnknown: true }),
@@ -26,7 +26,7 @@ router.post('/cards', celebrate({
   }),
 }), createCard);
 
-router.put('/cards/:cardId/likes', celebrate({
+cardsRouter.put('/:cardId/likes', celebrate({
   headers: Joi.object().keys({
   }).unknown(true),
   params: Joi.object().keys({
@@ -34,7 +34,7 @@ router.put('/cards/:cardId/likes', celebrate({
   }),
 }), likeCard);
 
-router.delete('/cards/:cardId/likes', celebrate({
+cardsRouter.delete('/:cardId/likes', celebrate({
   headers: Joi.object().keys({
   }).unknown(true),
   params: Joi.object().keys({
@@ -42,7 +42,7 @@ router.delete('/cards/:cardId/likes', celebrate({
   }),
 }), dislikeCard);
 
-router.delete('/cards/:cardId', celebrate({
+cardsRouter.delete('/:cardId', celebrate({
   headers: Joi.object().keys({
   }).unknown(true),
   params: Joi.object().keys({
@@ -50,4 +50,4 @@ router.delete('/cards/:cardId', celebrate({
   }),
 }), deleteCard);
 
-module.exports = router;
+module.exports = cardsRouter;

@@ -67,8 +67,8 @@ app.post(
   createUser,
 );
 
-app.use('/', auth, userRouter);
-app.use('/', auth, cardsRouter);
+app.use('/users', auth, userRouter);
+app.use('/cards', auth, cardsRouter);
 
 app.use(() => {
   throw new NotFoundError('Page not found');

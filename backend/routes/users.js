@@ -8,7 +8,7 @@ const {
 
 userRouter.get('/', getUsers);
 
-userRouter.get('/:id', getOneUser);
+userRouter.get('/me', getOneUser);
 
 userRouter.patch('/me', celebrate({
   body: Joi.object().keys({

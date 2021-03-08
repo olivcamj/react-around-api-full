@@ -34,17 +34,17 @@ mongoose.connect('mongodb://localhost:27017/aroundb', {
 });
 
 app.use(helmet());
-app.use(bodyParser);
-const corsOptions = {
-  origin: '*',
-  optionSuccessStatus: 200,
-};
-
-app.use(express.json(), cors(corsOptions));
-// app.use(cors());
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'https://around.students.nomoreparties.site');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  res.header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS');
+  next();
+});
+app.use(cors());
 app.options('*', cors()); // preflight
 
-// app.use(express.json());// to support JSON-encoded bodies
+app.use(express.json()); // parse JSON-encoded bodies
+app.use(bodyParser.json());
 
 app.use(requestLogger); // enabling the request logger
 

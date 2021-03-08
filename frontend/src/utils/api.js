@@ -103,7 +103,7 @@ class Api {
 }
 
 const api = new Api({
-  baseUrl: "http://localhost:3000" //"https://api.around.students.nomoreparties.site",
+  baseUrl: "https://api.around.students.nomoreparties.site",
 });
 
 export default api;

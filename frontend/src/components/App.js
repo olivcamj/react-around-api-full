@@ -148,7 +148,7 @@ function App() {
 
     register(email, password)
       .then((res) => {
-        if (!res || !res.statusCode === 200) {
+        if (!res || !res.statusCode === (200 || 201)) {
           handleInfoToolTip("fail");
           resetForm();
           throw new Error("Bad Request");
